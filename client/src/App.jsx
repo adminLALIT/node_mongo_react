@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./App.css";
 
 const App = () => {
@@ -9,7 +10,24 @@ const App = () => {
 
   const handleForm = (e) => {
     e.preventDefault();
-    console.log(name);
+
+    const payload = {
+      name,
+      email,
+      password,
+    };
+
+    axios({
+      url: "http://localhost:5000/api/save",
+      method: "POST",
+      data: payload,
+    })
+      .then(() => {
+        console.log("Data sent to server");
+      })
+      .catch(() => {
+        console.log("Server Error");
+      });
   };
 
   return (
@@ -32,7 +50,8 @@ const App = () => {
             className="input"
             type="email"
             name="email"
-            // value={email}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Email"
           />
         </div>
@@ -41,7 +60,8 @@ const App = () => {
             className="input"
             type="password"
             name="password"
-            // value={password}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter Password"
           />
         </div>
